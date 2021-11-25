@@ -5,9 +5,8 @@ const app = express()
 const PORT = process.env.PORT || 8001
 const serveIndex = require('serve-index');
 
-
 const db = require("./models");
-db.sequelize.authenticate().then(() => {
+db.sequelize.sync().then(() => {
         console.log('Connection has been established successfully.');
     })
     .catch(err => {

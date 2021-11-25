@@ -3,7 +3,7 @@ module.exports = (req, res, next) => {
         res.status(400).send({
             message: "Content can not be empty!"
         });
-        return;
+    } else{
+        next()
     }
-    next()
 }

@@ -23,8 +23,14 @@ module.exports = async (req, res, next) => {
             version: 'v3',
             auth: oauth2Client,
         });
-        const filePath = path.join(__dirname, '../public', req.FILEID + path.extname(req.file.originalname));
+        const filePath = path.join(__dirname, '../public', req.FILELOCALPATH);
         try{
+            if(req.fileid){ 
+                await drive.files.delete({
+                    fileId: req.fileid,// file id
+                }); 
+            }
+
             const response = await drive.files.create({
                     requestBody: {
                         name: req.FILEID + path.extname(req.file.originalname), //file name
@@ -52,9 +58,11 @@ module.exports = async (req, res, next) => {
                 });
 
                 req.additional_info = {
-                    el_image_gdriveid : fileId,
-                    el_image: result.data.webViewLink
+                    fileid: fileId,
+                    link: result.data.webViewLink
                 }
+
+                
 
         } catch (error) { 
             console.log(error.message);

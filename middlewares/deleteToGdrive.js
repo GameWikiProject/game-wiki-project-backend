@@ -12,7 +12,7 @@ const REFRESH_TOKEN = process.env.REFRESH_TOKEN
 const FOLDERID = process.env.FOLDERID
 
 module.exports = async (req, res, next) => {
-    if(req.data.el_image_gdriveid){
+    if(req.fileid){
         const oauth2Client = new google.auth.OAuth2(
             CLIENT_ID,
             CLIENT_SECRET,
@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
         }); 
         try {
             await drive.files.delete({
-                fileId: req.data.el_image_gdriveid,// file id
+                fileId: req.fileid,// file id
             });
         } catch (error) {
             console.log(error.message);

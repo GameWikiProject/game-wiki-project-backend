@@ -1,12 +1,12 @@
 require('dotenv').config()
 const db = require("../../../models");
-const Elements = db.masterdata.elements;
+const WeaponTypes = db.masterdata.weapon_types;
 
 const error = require('../../../helpers/errors')
 const cleanObj = require('../../../helpers/cleanObj') 
 
 exports.getAll = (req, res) => {
-    Elements.findAll({include: req.includes})
+    WeaponTypes.findAll({include: req.includes})
         .then(datas => {
             res.send(datas)
         }).catch(err => {
@@ -20,12 +20,12 @@ exports.get = (req, res) => {
 
 exports.create = (req, res, next) => {
     let file_info = {
-        el_image: req.additional_info.link,
-        el_image_gdriveid: req.additional_info.fileid
+        wt_icon: req.additional_info.link,
+        wt_icon_gdriveid: req.additional_info.fileid
     }
     file_info = cleanObj(file_info)
     const data = {...req.body, ...file_info}
-    Elements.create(data)
+    WeaponTypes.create(data)
         .then(data => {
             res.send({ data });
         })
@@ -36,8 +36,8 @@ exports.create = (req, res, next) => {
 
 exports.update = async (req, res) => {
     let file_info = {
-        el_image: req.additional_info.link,
-        el_image_gdriveid: req.additional_info.fileid
+        wt_icon: req.additional_info.link,
+        wt_icon_gdriveid: req.additional_info.fileid
     }
     file_info = cleanObj(file_info)
     await req.data.update({...req.body, ...file_info})
